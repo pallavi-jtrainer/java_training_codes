@@ -1,0 +1,32 @@
+create table orcluser.student (
+student_id number generated always as identity primary key,
+student_name varchar2(50) not null,
+student_password varchar2(50) not null,
+student_phone varchar2(10),
+books_count number not null);
+
+create table orcluser.Library_book_details(
+book_id number generated always as identity primary key,
+book_title varchar2(50) not null,
+book_author varchar2(50) not null,
+available_copies number not null,
+department varchar2(50)not null);
+
+create table orcluser.librarian(
+librarian_id number generated always as identity primary key,
+librarian_password varchar2(50) not null,
+librarian_name varchar2(50) not null);
+
+create table orcluser.book_transaction(
+transaction_id number generated always as identity primary key,
+book_id number not null,
+librarian_id number not null,
+student_id number not null,
+issue_date date not null,
+return_date date not null,
+due_date date not null,
+fine_amount number not null,
+constraint fk_book_id foreign key (book_id) references orcluser.library_book_details(book_id),
+constraint fk_librarian_id foreign key (librarian_id) references orcluser.librarian(librarian_id),
+constraint fk_student_id foreign key (student_id) references orcluser.student(student_id)
+);
