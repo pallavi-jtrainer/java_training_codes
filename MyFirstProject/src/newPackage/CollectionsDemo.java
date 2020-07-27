@@ -17,7 +17,7 @@ public class CollectionsDemo {
 		 * 		ArrayList<datatype> arraylist_name = new ArrayList<datatype>();
 		 */
 		
-		ArrayList<String> names = new ArrayList<String>();
+		List<String> names = new ArrayList<String>();
 		
 		names.add("Neha");
 		names.add("Mona");
