@@ -1,6 +1,7 @@
 package jul_27_2020;
 
 import java.io.FileInputStream;
+import java.util.*;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,12 +9,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class ObjectWriterDemo {
-
+	
 	public static void main(String[] args) {
-		Employee e1 = new Employee();
+		Scanner sc = new Scanner(System.in);
 		
-		e1.setEmpId(1001);
-		e1.setEmpName("Kannan");
+		Employee e1 = new Employee();
+		String name = sc.next();
+		int id = sc.nextInt();
+		
+		e1.setEmpId(id);
+		e1.setEmpName(name);
 		
 		try {
 			FileOutputStream fout = new FileOutputStream("employee.txt");
