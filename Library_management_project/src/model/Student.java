@@ -3,7 +3,7 @@ package model;
 import java.io.*;
 import java.util.*;
 
-public class Student {//implements Serializable{
+public class Student implements Serializable{
 	//member variables
 	private int student_id;
 	private String student_name;
@@ -13,7 +13,7 @@ public class Student {//implements Serializable{
 	
 	ArrayList<Student> students = new ArrayList<Student>();
 	
-	Scanner sc = new Scanner(System.in);
+	transient Scanner sc = new Scanner(System.in);
 	
 	static String path = "c:\\users\\labadmin\\desktop\\project\\students.txt";
 	
@@ -107,6 +107,21 @@ public class Student {//implements Serializable{
 	}
 	
 	public void displayAllStudents() {
+		Student s;
+		try {
+			FileInputStream fin = new FileInputStream(path);
+			while((fin.available()) != 0)
+			{
+				   ObjectInputStream out = new ObjectInputStream(fin);
+			       s =(Student)out.readObject();
+			       System.out.println(s.getStudentId()+" : "+s.getStudentName()+" : "+s.getStudentPhone());
+			}
+			fin.close();
+			}catch (IOException e) {
+				System.out.println(e.getMessage());
+			}catch(ClassNotFoundException e) {
+				System.out.println(e.getMessage());
+			}
 		
 //		for(int i = 0; i< 3; i++) {
 //			Student s = populateStudentArray();
@@ -116,86 +131,28 @@ public class Student {//implements Serializable{
 //		
 //		for(Student std : students)
 //			System.out.println("ID: " + std.student_id + " Name: " + std.student_name);
-	
-		File file = new File(path);
-		
-		long fileLength = file.length();
-		for(long i=0; i< fileLength; i++) {
-			readFromStudentsFile();
-			//System.out.println("ID: " + s.getStudentId()+ " : Student Name: " 
-				//	+ s.getStudentName() );
-		}
+//	
+//		File file = new File(path);
+//		
+//		long fileLength = file.length();
+//		for(long i=0; i< fileLength; i++) {
+//			readFromStudentsFile();
+//			//System.out.println("ID: " + s.getStudentId()+ " : Student Name: " 
+//				//	+ s.getStudentName() );
+//		}
 	}
 	
 	static void writeToStudentsFile(Student s) {
-//		try {
-//			FileOutputStream fout = new FileOutputStream(path,true);
-//			ObjectOutputStream out = new ObjectOutputStream(fout);
-//			
-//			if(s != null)
-//				out.writeObject(s);
-//			else
-//				System.out.println("Empty object");
-//			out.close();
-//			fout.close();
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
 		try {
-			FileWriter fw = new FileWriter(path, true);
+			FileOutputStream fout = new FileOutputStream(path,true);
+			ObjectOutputStream out = new ObjectOutputStream(fout);
 			
-			BufferedWriter bw = new BufferedWriter(fw);
-			
-			String student = String.join(" : ", String.valueOf(s.getStudentId()),
-					s.getStudentName(), s.getStudentPassword(), s.getStudentPhone(),
-					String.valueOf(s.getBookCount()));
-			//System.out.println(student);
-			bw.write(student);
-			bw.flush();
-			bw.close();
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-	}
-	
-	static void readFromStudentsFile() {
-		Student s = new Student();
-		
-//		try {
-//			FileInputStream fin = new FileInputStream(path);
-//			
-//			ObjectInputStream in = new ObjectInputStream(fin);
-//			
-//			s = (Student) in.readObject();
-//			
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (ClassNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
-		try {
-			FileReader fr = new FileReader(path);
-			
-			BufferedReader br = new BufferedReader(fr);
-			
-			String student = br.readLine();
-			
-			System.out.println(student);
+			if(s != null)
+				out.writeObject(s);
+			else
+				System.out.println("Empty object");
+			out.close();
+			fout.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -204,6 +161,66 @@ public class Student {//implements Serializable{
 			e.printStackTrace();
 		}
 		
+//		try {
+//			FileWriter fw = new FileWriter(path, true);
+//			
+//			BufferedWriter bw = new BufferedWriter(fw);
+//			
+//			String student = String.join(" : ", String.valueOf(s.getStudentId()),
+//					s.getStudentName(), s.getStudentPassword(), s.getStudentPhone(),
+//					String.valueOf(s.getBookCount()));
+//			//System.out.println(student);
+//			bw.write(student);
+//			bw.flush();
+//			bw.close();
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
+		
+	}
+	
+	static void readFromStudentsFile() {
+		Student s = new Student();
+		
+		try {
+			FileInputStream fin = new FileInputStream(path);
+			
+			ObjectInputStream in = new ObjectInputStream(fin);
+			
+			s = (Student) in.readObject();
+			
+			System.out.println(s.getStudentId() + " : " +s.getStudentName());
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+//		try {
+//			FileReader fr = new FileReader(path);
+//			
+//			BufferedReader br = new BufferedReader(fr);
+//			
+//			String student = br.readLine();
+//			
+//			System.out.println(student);
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
 		
 		//return s;
 	}
