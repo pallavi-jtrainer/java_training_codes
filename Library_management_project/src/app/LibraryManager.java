@@ -56,9 +56,13 @@ public class LibraryManager {
 	public static void main(String[] args) {
 		Student s = new Student();
 		
-	//	for(int i =0;i<3;i++) {
-			s.populateStudentFile();
-		//}
+//		for(int i =0;i<3;i++) {
+//			s.populateStudentFile();
+//		}
+		
+		s.displayAllStudents();
+		
+		
 
 	}
 
