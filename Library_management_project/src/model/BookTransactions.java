@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import perisistence.BookTransactionsDAO;
 import perisistence.LibraryBookDetailsDAO;
 import perisistence.StudentDAO;
 
@@ -16,9 +17,9 @@ public class BookTransactions {
 	private int book_id;
 	private int librarian_id;
 	private int student_id;
-	private Date issue_date;
-	private Date return_date;
-	private Date due_date;
+	private String issue_date;
+	private String return_date;
+	private String due_date;
 	private int fine_amt;
 	
 	//ArrayList<BookTransactions> btList = new ArrayList<BookTransactions>();
@@ -49,22 +50,22 @@ public class BookTransactions {
 	public void setStudent_id(int student_id) {
 		this.student_id = student_id;
 	}
-	public Date getIssue_date() {
+	public String getIssue_date() {
 		return issue_date;
 	}
-	public void setIssue_date(Date issue_date) {
+	public void setIssue_date(String issue_date) {
 		this.issue_date = issue_date;
 	}
-	public Date getReturn_date() {
+	public String getReturn_date() {
 		return return_date;
 	}
-	public void setReturn_date(Date return_date) {
+	public void setReturn_date(String return_date) {
 		this.return_date = return_date;
 	}
-	public Date getDue_date() {
+	public String getDue_date() {
 		return due_date;
 	}
-	public void setDue_date(Date due_date) {
+	public void setDue_date(String due_date) {
 		this.due_date = due_date;
 	}
 	public int getFine_amt() {
@@ -121,26 +122,46 @@ public class BookTransactions {
 			String bname = br.readLine();
 			
 			boolean sFlag = StudentDAO.validateId(id);
-			int bookId = LibraryBookDetailsDAO.retrieveBookID(bname);
-			
-			transaction.setBook_id(bookId);
-			transaction.setStudent_id(id);
-			transaction.setLibrarian_id(libId);
-			
-			Date d = new Date();
-			SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
-			String issue = sdf.format(d);
-			
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(d);
-			
-			transaction.setIssue_date(d);
-			
-			//adding 7 days to current date
-			calendar.add(Calendar.DAY_OF_MONTH, 7);
-			
-			
-			
+			if(sFlag == true) {
+				int bookId = LibraryBookDetailsDAO.retrieveBookID(bname);
+				
+				if(bookId > 0) {
+					transaction.setBook_id(bookId);
+					transaction.setStudent_id(id);
+					transaction.setLibrarian_id(libId);
+					
+					Date d = new Date();
+					SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
+					String issueDate = sdf.format(d);
+					
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(d);
+					
+					transaction.setIssue_date(issueDate);
+						
+					//adding 7 days to current date
+					calendar.add(Calendar.DAY_OF_MONTH, 7);
+				
+					String returnDate = sdf.format(calendar.getTime());
+					String dueDate = sdf.format(calendar.getTime());
+				
+					transaction.setDue_date(dueDate);
+					transaction.setReturn_date(returnDate);
+					transaction.setFine_amt(0);
+					
+					boolean flag = BookTransactionsDAO.insertTransaction(transaction);
+					
+					if(flag == true) {
+						System.out.println("Book issued successfully");
+					}else {
+						System.out.println("something went wrong. try again!");
+					}
+				}else {
+					System.out.println("Book not found");
+				}
+			}else {
+				System.out.println("Student not found!");
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
