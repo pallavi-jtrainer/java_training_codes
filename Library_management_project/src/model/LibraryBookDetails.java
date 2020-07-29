@@ -1,5 +1,10 @@
 package model;
 
+import java.util.ArrayList;
+
+import perisistence.LibrarianDAO;
+import perisistence.LibraryBookDetailsDAO;
+
 public class LibraryBookDetails {
 	private int book_id;
 	private String book_title;
@@ -38,7 +43,20 @@ public class LibraryBookDetails {
 	public void setDepartment(Department dept) {
 		this.department = dept;
 	}
+		
+	@Override
+	public String toString() {
+		return "Library Book Details [book_id=" + book_id + ", book_title=" + book_title + ", book_author=" + book_author
+				+ ", available_copies=" + available_copies + ", department=" + department + "]";
+	}
 	
-	
+	public void ListAllBooks() {
+		ArrayList<LibraryBookDetails> bookList = new ArrayList<LibraryBookDetails>();
+		
+		bookList = LibraryBookDetailsDAO.listBooks();
+		for(LibraryBookDetails book : bookList) {
+			System.out.println(book.toString());
+		}	
+	}
 	
 }

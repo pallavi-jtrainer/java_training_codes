@@ -1,5 +1,7 @@
 package model;
 
+import perisistence.LibrarianDAO;
+
 public class Librarian {
 	private int librarian_id;
 	private String librarian_name;
@@ -22,6 +24,10 @@ public class Librarian {
 	}
 	public void setLibrarian_password(String librarian_password) {
 		this.librarian_password = librarian_password;
+	}
+	
+	public static boolean validateCredentials(int id, String pass) {
+		return new LibrarianDAO().validate(id, pass);
 	}
 	
 	

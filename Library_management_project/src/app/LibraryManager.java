@@ -6,9 +6,9 @@ import model.*;
 
 public class LibraryManager {
 	//scanner is used to read information from standard input device
-	Scanner sc = new Scanner(System.in);
+	static Scanner sc = new Scanner(System.in);
 	
-	void mainMenu() {
+	static void mainMenu() {
 		int choice = 0;
 		do {
 			System.out.println("********** Library Management System *************");
@@ -19,7 +19,8 @@ public class LibraryManager {
 			System.out.println("4. Generate Report");
 			System.out.println("5. Issue Book");
 			System.out.println("6. Calculate fine");
-			System.out.println("7. Exit");
+			System.out.println("7. List Books in Library");
+			System.out.println("8. Exit");
 			
 			System.out.println("Enter your choice: ");
 			choice = sc.nextInt();
@@ -37,11 +38,15 @@ public class LibraryManager {
 					break;
 			case 6: System.out.println("Calculating");
 					break;
-			default: System.exit(0);
+			case 7: System.out.println("List Of Books -----------------");
+					new LibraryBookDetails().ListAllBooks();
+			 		break;
+			default:System.out.println("Exiting!!!!"); 
+					System.exit(0);
 					break;
 			}
 			
-		}while(choice >=1 && choice < 7);
+		}while(choice >=1 && choice < 8);
 	}
 	
 	void subMenu_Reports() {
@@ -50,19 +55,29 @@ public class LibraryManager {
 	}
 	
 	
-	
+	static void login() {
+		System.out.println("LIBRARY MANAGEMENT SYSTEM***************");
+		System.out.println();
+		System.out.print("ID Please: ");
+		int id = sc.nextInt();
+		System.out.print("Password: ");
+		String pass = sc.next();
+		
+		boolean flag = Librarian.validateCredentials(id, pass);
+		if(flag == true) {
+			mainMenu();
+		}else {
+			System.out.println("Wrong ID or Password. Please try again!");
+			System.exit(0);
+		}
+		
+	}
 	
 	
 	public static void main(String[] args) {
-		Student s = new Student();
-		
-//		for(int i =0;i<3;i++) {
-//			s.populateStudentFile();
-//		}
-		
-		s.displayAllStudents();
 		
 		
+		login();
 
 	}
 
