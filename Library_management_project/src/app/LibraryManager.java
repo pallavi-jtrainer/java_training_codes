@@ -8,7 +8,7 @@ public class LibraryManager {
 	//scanner is used to read information from standard input device
 	static Scanner sc = new Scanner(System.in);
 	
-	static void mainMenu() {
+	static void mainMenu(int id) {
 		int choice = 0;
 		do {
 			System.out.println("********** Library Management System *************");
@@ -26,7 +26,8 @@ public class LibraryManager {
 			choice = sc.nextInt();
 			
 			switch(choice) {
-			case 1: System.out.println("adding a book");
+			case 1: System.out.println("Add a new book");
+					new LibraryBookDetails().getBookDetails();
 					break;
 			case 2: System.out.println("updating a book");
 					break;
@@ -35,6 +36,7 @@ public class LibraryManager {
 			case 4: System.out.println("Generating");
 					break;
 			case 5: System.out.println("Issuing");
+					new BookTransactions().issueBook(id);
 					break;
 			case 6: System.out.println("Calculating");
 					break;
@@ -65,7 +67,7 @@ public class LibraryManager {
 		
 		boolean flag = Librarian.validateCredentials(id, pass);
 		if(flag == true) {
-			mainMenu();
+			mainMenu(id);
 		}else {
 			System.out.println("Wrong ID or Password. Please try again!");
 			System.exit(0);

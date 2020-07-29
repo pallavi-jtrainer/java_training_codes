@@ -11,8 +11,10 @@ public class ConnectToDB {
 			connect = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521/pdborcl", 
 					"sys as sysdba", "Welcome123");
 			
-			if(connect != null)
+			if(connect != null) {
 				System.out.println("connected!");
+			//	connect.setAutoCommit(true);
+			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
